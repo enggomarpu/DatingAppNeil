@@ -1,17 +1,38 @@
 [
   {
-    "UserName": "Lana"
+    "Email": "claudinefrost@thredz.com",
+    "UserName": "claudinefrost@thredz.com",
+    "FirstName": "Hattie",
+    "LastName": "Burt"
   },
   {
-    "UserName": "Kelley"
+    "Email": "hattieburt@thredz.com",
+    "UserName": "hattieburt@thredz.com",
+    "FirstName": "Mayo",
+    "LastName": "Joyner"
   },
   {
-    "UserName": "Teri"
+    "Email": "mayojoyner@thredz.com",
+    "UserName": "mayojoyner@thredz.com",
+    "FirstName": "Vivian",
+    "LastName": "Hood"
   },
   {
-    "UserName": "Jacqueline"
+    "Email": "vivianhood@thredz.com",
+    "UserName": "vivianhood@thredz.com",
+    "FirstName": "Meghan",
+    "LastName": "Bridges"
   },
   {
-    "UserName": "Mia"
+    "Email": "meghanbridges@thredz.com",
+    "UserName": "meghanbridges@thredz.com",
+    "FirstName": "Davenport",
+    "LastName": "Gardner"
+  },
+  {
+    "Email": "davenportgardner@thredz.com",
+    "UserName": "davenportgardner@thredz.com",
+    "FirstName": "Noemi",
+    "LastName": "Moon"
   }
 ]

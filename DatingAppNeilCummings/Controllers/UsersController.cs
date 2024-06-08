@@ -19,7 +19,7 @@ namespace DatingAppNeilCummings.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
 		{
-			return await _context.AppUsers.ToListAsync();
+			return await _context.Users.ToListAsync();
 		}
 	}
 }

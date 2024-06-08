@@ -1,4 +1,6 @@
 using DatingAppNeilCummings.Data;
+using DatingAppNeilCummings.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,22 @@ builder.Services.AddDbContext<DBContext>(x =>
 {
 	x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+//builder.Services.AddIdentityCore<AppUser>(opt => {
+//	opt.Password.RequireNonAlphanumeric = false;
+//}).AddEntityFrameworkStores<DBContext>();
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(opt => {
+	
+	opt.Lockout.AllowedForNewUsers = true;
+	opt.Lockout.MaxFailedAccessAttempts = 3;
+	opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+	opt.Password.RequireNonAlphanumeric = false;
+
+}).AddEntityFrameworkStores<DBContext>();
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -34,8 +52,9 @@ var services = scope.ServiceProvider;
 try
 {
 	var context = services.GetRequiredService<DBContext>();
+	var manager = services.GetRequiredService<UserManager<AppUser>>();
 	await context.Database.MigrateAsync();
-	await Seed.SeedData(context);
+	await Seed.SeedData(manager);
 }
 catch(Exception ex)
 {
