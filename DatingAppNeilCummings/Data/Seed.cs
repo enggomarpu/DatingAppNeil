@@ -13,12 +13,13 @@ namespace DatingAppNeilCummings.Data
 			if (await userManager.Users.AnyAsync()) return;
 
 			var userData = await File.ReadAllTextAsync("Data/UserSeedData.json");
-			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-			var users = JsonSerializer.Deserialize<List<AppUser>>(userData, options);
+			//var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
 
             foreach (var user in users)
             {
 				//context.Users.Add(user);
+				user.UserName = user.UserName.ToLower();
 				await userManager.CreateAsync(user, "Pa$$w0rd");
 
 			}

@@ -1,7 +1,13 @@
 using DatingAppNeilCummings.Data;
 using DatingAppNeilCummings.Entities;
+using DatingAppNeilCummings.Services;
+using DotNetCoreIdentity.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +38,27 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt => {
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var jwtKey = builder.Configuration.GetSection("Token:Key").Get<string>();
+var jwtIssuer = builder.Configuration.GetSection("Token:Issuer").Get<string>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options => 
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateIssuerSigningKey  = true,
+		//ValidIssuer = jwtIssuer,
+		//IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtKey)),
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+		ValidateAudience = false
+
+    };
+});
+
+
+builder.Services.AddTransient<ITokenService, TokenService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +70,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -54,7 +82,7 @@ try
 	var context = services.GetRequiredService<DBContext>();
 	var manager = services.GetRequiredService<UserManager<AppUser>>();
 	await context.Database.MigrateAsync();
-	await Seed.SeedData(manager);
+	//await Seed.SeedData(manager);
 }
 catch(Exception ex)
 {

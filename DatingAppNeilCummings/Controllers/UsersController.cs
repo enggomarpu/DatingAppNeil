@@ -1,13 +1,14 @@
 ﻿using DatingAppNeilCummings.Data;
 using DatingAppNeilCummings.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingAppNeilCummings.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class UsersController : Controller
+	
+	public class UsersController : BaseApiController
 	{
 		private readonly DBContext _context;
 
@@ -16,6 +17,8 @@ namespace DatingAppNeilCummings.Controllers
 			_context = context;
 		}
 
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		//[Authorize]
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
 		{
