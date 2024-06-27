@@ -10,6 +10,8 @@ namespace DatingAppNeilCummings.Data
         {
             
         }
-        
+
+        public DbSet<Photo> Photos { get; set; }
+
     }
 }

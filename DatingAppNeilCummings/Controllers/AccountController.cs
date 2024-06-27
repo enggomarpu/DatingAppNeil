@@ -28,8 +28,8 @@ namespace DatingAppNeilCummings.Controllers
 			var user = new AppUser
 			{
 				Email = regisDto.Email,
-				FirstName = regisDto.FirstName,
-				LastName = regisDto.LastName,
+				//FirstName = regisDto.FirstName,
+				//LastName = regisDto.LastName,
 				UserName = regisDto.Email
 			};
 

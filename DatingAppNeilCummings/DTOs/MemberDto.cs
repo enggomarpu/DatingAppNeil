@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DatingAppNeilCummings.Entities;
 
-namespace DatingAppNeilCummings.Entities
+namespace DatingAppNeilCummings.DTOs
 {
-	public class AppUser: IdentityUser
+	public class MemberDto
 	{
+		public string Id { get; set; }
+
+		public string Email { get; set; }
 		public DateTime DateOfBirth { get; set; }
 		public string KnownAs { get; set; }
-		public DateTime Created { get; set; } = DateTime.Now;
-		public DateTime LastActive { get; set; } = DateTime.Now;
+		public DateTime LastActive { get; set; } 
 		public string Gender { get; set; }
 		public string Introduction { get; set; }
 		public string LookingFor { get; set; }
@@ -15,6 +17,6 @@ namespace DatingAppNeilCummings.Entities
 		public string City { get; set; }
 		public string Country { get; set; }
 
-        public List<Photo> Photos { get; set; }
-    }
+		public List<PhotoDto> Photos { get; set; }
+	}
 }

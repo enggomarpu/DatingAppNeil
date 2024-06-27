@@ -1,4 +1,6 @@
-﻿using DatingAppNeilCummings.Data;
+﻿using AutoMapper;
+using DatingAppNeilCummings.Data;
+using DatingAppNeilCummings.DTOs;
 using DatingAppNeilCummings.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +13,12 @@ namespace DatingAppNeilCummings.Controllers
 	public class UsersController : BaseApiController
 	{
 		private readonly DBContext _context;
+		private readonly IMapper _mapper;
 
-		public UsersController(DBContext context)
+		public UsersController(DBContext context, IMapper mapper)
 		{
 			_context = context;
+			_mapper = mapper;
 		}
 
 		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -22,7 +26,12 @@ namespace DatingAppNeilCummings.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
 		{
-			return await _context.Users.ToListAsync();
+			
+			var users = await _context.Users.Include(e => e.Photos).ToListAsync();
+			var returnUsers = _mapper.Map<IEnumerable<MemberDto>>(users);
+
+			return Ok(returnUsers);
+
 		}
 	}
 }
